@@ -3,7 +3,8 @@ export default {
     color: '#20211c',
     medium: '#2d2e27',
     light: '#393b31',
-    dark: '#11120d'
+    dark: '#11120d',
+    textOn: '#e2e8ca'
   },
   success: {
     color: 'rgb(29, 138, 43)',

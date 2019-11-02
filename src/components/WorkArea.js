@@ -14,28 +14,37 @@ export default () => {
   const [result, setResult] = React.useState(null);
   const [passed, setPassed] = React.useState(null);
   const [challengeIndex, setChallengeIndex] = React.useState(0);
+  const [isTesting, setIsTesting] = React.useState(false);
   const history = useHistory();
   const location = useLocation();
 
   const currentChallenge = CHALLENGES[challengeIndex];
 
+  const resetOutput = () => {
+    setResult(null);
+    setOutput([]);
+    setPassed(null);
+  }
+
   const startCodeTest = () => {
-    const { logs, result, crashed } = executeCode(code);
-    setOutput(logs);
-    if(!crashed){
-      const passed = testResult(result, currentChallenge, code)
-      setResult(() => result);
-      setPassed(passed);
-    }else{
-      setPassed(false);
-    }
+    setIsTesting(true);
+    resetOutput();
+    executeCode(code).then(({ logs, result, crashed }) => {
+      setOutput(logs);
+      if (!crashed) {
+        const passed = testResult(result, currentChallenge, code);
+        setResult(() => result);
+        setPassed(passed);
+      } else {
+        setPassed(false);
+      }
+      setIsTesting(false);
+    });
   };
 
   React.useEffect(() => {
     setCode(currentChallenge.startCode)
-    setResult(null);
-    setOutput([]);
-    setPassed(null);
+    resetOutput();
     history.replace(`${location.pathname}?challenge=${challengeIndex}`)
   }, [currentChallenge, challengeIndex]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -65,9 +74,14 @@ export default () => {
           number={challengeIndex + 1}
         />
         <Editor code={code} onCodeChanged={setCode} />
-        <Output output={output} result={result} passed={passed} />
+        <Output output={output} result={result} passed={passed} isTesting={isTesting} />
       </PageWrapper>
-      <Toolbar onRun={startCodeTest} onNextRequested={setNextChallengeIndex} passed={passed} />
+      <Toolbar
+        onRun={startCodeTest}
+        onNextRequested={setNextChallengeIndex}
+        passed={passed}
+        isTesting={isTesting}
+      />
     </React.Fragment>
   );
 };

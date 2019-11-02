@@ -1,4 +1,11 @@
-import { isType, isArray, hasLength, usedSnippet, isObject } from './testHelpers'
+import {
+  isType,
+  isArray,
+  hasLength,
+  usedSnippet,
+  isObject,
+  usedAtLeastNumOfSnippet
+} from "./testHelpers";
 
 const numberList = [ 0, 1, 2, 3, 4 ];
 
@@ -79,7 +86,8 @@ The returned array would be:
       r => hasLength(r, 5),
       r => r.every(numArr => isArray(numArr)),
       r => r.every(numArr => hasLength(numArr, 5)),
-      r => r.every((numArr, i) => numArr.every((num, k) => num === numberList[k] * numberList[i]))
+      r => r.every((numArr, i) => numArr.every((num, k) => num === numberList[k] * numberList[i])),
+      (r, c, code) => usedAtLeastNumOfSnippet(code, '.map(', 2)
     ]
   }
 ]

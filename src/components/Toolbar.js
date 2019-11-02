@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Play as PlayIcon, Forwards as ForwardsIcon } from '@chrisjpatty/tang-ui-icons'
 
-export default ({ onRun, onNextRequested, passed }) => {
+export default ({ onRun, onNextRequested, passed, isTesting }) => {
 
   return (
     <Wrapper>
@@ -11,7 +11,7 @@ export default ({ onRun, onNextRequested, passed }) => {
           {
             !passed ?
             <FlexRow>
-              <PlayIcon /> Run & Test
+              {isTesting ? <StopIcon /> : <PlayIcon />} {isTesting ? 'Testing' : 'Run & Test'}
             </FlexRow>
             :
             <FlexRow>
@@ -77,4 +77,12 @@ const FlexRow = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+const StopIcon = styled('div')`
+  width: 12px;
+  height: 12px;
+  background: currentcolor;
+  border-radius: 2px;
+  margin-right: 10px;
 `
