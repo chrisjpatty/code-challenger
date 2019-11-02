@@ -45,7 +45,7 @@ export default () => {
   React.useEffect(() => {
     setCode(currentChallenge.startCode)
     resetOutput();
-    history.replace(`${location.pathname}?challenge=${challengeIndex}`)
+    history.replace(`${location.pathname}?challenge=${challengeIndex + 1}`)
   }, [currentChallenge, challengeIndex]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const setNextChallengeIndex = () => {
@@ -60,8 +60,8 @@ export default () => {
   React.useEffect(() => {
     const params = new URLSearchParams(location.search)
     const startIndex = parseInt(params.get("challenge"), 10);
-    if(startIndex !== undefined && !isNaN(startIndex) && startIndex < CHALLENGES.length){
-      setChallengeIndex(startIndex)
+    if(startIndex !== undefined && !isNaN(startIndex) && startIndex <= CHALLENGES.length && startIndex !== 0){
+      setChallengeIndex(startIndex - 1)
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 

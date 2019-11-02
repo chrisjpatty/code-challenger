@@ -8,6 +8,7 @@ import {
 } from "./testHelpers";
 
 const numberList = [ 0, 1, 2, 3, 4 ];
+const numberList2 = [ 1, 2, 3, 4, 5 ];
 
 export default [
   {
@@ -88,6 +89,26 @@ The returned array would be:
       r => r.every(numArr => hasLength(numArr, 5)),
       r => r.every((numArr, i) => numArr.every((num, k) => num === numberList[k] * numberList[i])),
       (r, c, code) => usedAtLeastNumOfSnippet(code, '.map(', 2)
+    ]
+  },
+  {
+    title: "Array.reduce()",
+    instructions: `
+In this challenge, we'll be taking our array of numbers, and reducing it into a single number. Using a reduce function, multiply all of the numbers in the array.
+
+For example, if the numbers array was:
+
+\`\`\`
+[ 2, 4, 6 ]
+\`\`\`
+
+The returned number would be \`48\`, because \`2 * 4 * 6 = 48\`.
+`,
+    startCode: `const numbers = [ ${numberList2.join(', ')} ];\n\n// Return your answer below\nreturn `,
+    tests: [
+      r => isType(r, 'number'),
+      r => r === numberList2.reduce((prod, n) => prod * n, 1),
+      (r, c, code) => usedSnippet(code, '.reduce(')
     ]
   }
 ]
