@@ -94,7 +94,7 @@ The returned array would be:
   {
     title: "Array.reduce()",
     instructions: `
-In this challenge, we'll be taking our array of numbers, and reducing it into a single number. Using a reduce function, multiply all of the numbers in the array.
+In this challenge, we'll be using the \`reduce\` function to reduce our array of numbers into the product of all the numbers in the array.
 
 For example, if the numbers array was:
 
