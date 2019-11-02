@@ -24,7 +24,7 @@ export default () => {
     setOutput(logs);
     if(!crashed){
       const passed = testResult(result, currentChallenge, code)
-      setResult(result);
+      setResult(() => result);
       setPassed(passed);
     }else{
       setPassed(false);

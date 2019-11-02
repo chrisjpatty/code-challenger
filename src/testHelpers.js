@@ -1,15 +1,22 @@
 export const isType = (result, type = "") => {
   type = type.toLowerCase();
   if(type === "array"){
-    return Array.isArray(result);
+    return isArray(result);
   }else{
     return typeof result === type;
   }
 }
 
-export const isArray = result => Array.isArray(result)
+export const isArray = result => {
+  if(typeof result === 'function'){
+    return false;
+  }else{
+    return Array.isArray(result)
+  }
+}
 
 export const hasLength = (result, length) => {
+  if(isType(result, 'function')) return false;
   try {
     let test = result.length === length;
     return test;
