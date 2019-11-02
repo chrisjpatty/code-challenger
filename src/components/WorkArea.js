@@ -7,6 +7,8 @@ import Toolbar from "./Toolbar";
 import { executeCode, testResult } from "../runtime";
 import CHALLENGES from "../challenges";
 import { useHistory, useLocation } from 'react-router-dom'
+import { setCodeCache } from '../utilities'
+import ls from 'local-storage'
 
 export default () => {
   const [code, setCode] = React.useState();
@@ -42,8 +44,14 @@ export default () => {
     });
   };
 
+  const cacheAndSetCode = code => {
+    setCode(code)
+    setCodeCache(code, currentChallenge.id)
+  }
+
   React.useEffect(() => {
-    setCode(currentChallenge.startCode)
+    const cachedCode = ls.get(`CODE_CACHE_${currentChallenge.id}`)
+    setCode(cachedCode ? cachedCode : currentChallenge.startCode)
     resetOutput();
     history.replace(`${location.pathname}?challenge=${challengeIndex + 1}`)
   }, [currentChallenge, challengeIndex]) //eslint-disable-line react-hooks/exhaustive-deps
@@ -57,11 +65,20 @@ export default () => {
     }
   }
 
+  const setPreviousChallengeIndex = () => {
+    setChallengeIndex(i => i - 1)
+  }
+
   React.useEffect(() => {
     const params = new URLSearchParams(location.search)
     const startIndex = parseInt(params.get("challenge"), 10);
-    if(startIndex !== undefined && !isNaN(startIndex) && startIndex <= CHALLENGES.length && startIndex !== 0){
-      setChallengeIndex(startIndex - 1)
+    if (
+      startIndex !== undefined &&
+      !isNaN(startIndex) &&
+      startIndex <= CHALLENGES.length &&
+      startIndex !== 0
+    ) {
+      setChallengeIndex(startIndex - 1);
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -73,14 +90,16 @@ export default () => {
           title={currentChallenge.title}
           number={challengeIndex + 1}
         />
-        <Editor code={code} onCodeChanged={setCode} />
+        <Editor code={code} onCodeChanged={cacheAndSetCode} />
         <Output output={output} result={result} passed={passed} isTesting={isTesting} />
       </PageWrapper>
       <Toolbar
         onRun={startCodeTest}
+        onPrevRequested={setPreviousChallengeIndex}
         onNextRequested={setNextChallengeIndex}
         passed={passed}
         isTesting={isTesting}
+        canGoBack={challengeIndex !== 0}
       />
     </React.Fragment>
   );

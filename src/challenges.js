@@ -13,6 +13,7 @@ const numberList2 = [ 1, 2, 3, 4, 5 ];
 export default [
   {
     title: "Array.map()",
+    id: "9ee5ed",
     instructions: `
 The goal of this challenge is to square an array of numbers. Using the \`map\` function, return a new array of numbers with each item being the square of the original number from the provided numbers array.
 
@@ -29,6 +30,7 @@ For example, if the starting array was:\n\n \`[ 5, 3, 1 ]\`\n\n the returned arr
   },
   {
     title: "Array.map()",
+    id: "700164",
     instructions: `
 The goal of this challenge is to use the \`map\` function to transform an array of numbers into an array of objects. Each object should have the following keys:
 
@@ -60,6 +62,7 @@ For example, if the number was 10, you would return an object like this:
   },
   {
     title: "Array.map()",
+    id: "d728d8",
     instructions: `
 In this challenge we'll be using the \`map\` function to transform an array of numbers into an array of arrays. Each array in the array will be a copy of the original numbers array, but with each item being multiplied by the number in the numbers array at the same index as the new array.
 
@@ -93,6 +96,7 @@ The returned array would be:
   },
   {
     title: "Array.reduce()",
+    id: "5e6ccc",
     instructions: `
 In this challenge, we'll be using the \`reduce\` function to reduce our array of numbers into the product of all the numbers in the array.
 

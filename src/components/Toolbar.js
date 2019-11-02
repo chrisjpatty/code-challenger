@@ -1,30 +1,49 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import { Play as PlayIcon, Forwards as ForwardsIcon } from '@chrisjpatty/tang-ui-icons'
+import React from "react";
+import styled from "@emotion/styled";
+import {
+  Play as PlayIcon,
+  Forwards as ForwardsIcon,
+  Back as BackIcon
+} from "@chrisjpatty/tang-ui-icons";
 
-export default ({ onRun, onNextRequested, passed, isTesting }) => {
-
+export default ({
+  onRun,
+  onPrevRequested,
+  onNextRequested,
+  passed,
+  isTesting,
+  canGoBack
+}) => {
   return (
     <Wrapper>
+      {
+        canGoBack &&
+        <Button onClick={onPrevRequested} style={{paddingBottom: 8}}>
+          <FlexRow>
+            <BackIcon style={{ width: 20 }} />{" "}
+            <span>Previous Challenge</span>
+          </FlexRow>
+        </Button>
+      }
       <PullRight>
         <Button onClick={passed ? onNextRequested : onRun} passed={passed}>
-          {
-            !passed ?
+          {!passed ? (
             <FlexRow>
-              {isTesting ? <StopIcon /> : <PlayIcon />} {isTesting ? 'Testing' : 'Run & Test'}
+              {isTesting ? <StopIcon /> : <PlayIcon />}{" "}
+              <span>{isTesting ? "Testing" : "Run & Test"}</span>
             </FlexRow>
-            :
+          ) : (
             <FlexRow>
               Next Challenge <ForwardsIcon />
             </FlexRow>
-          }
+          )}
         </Button>
       </PullRight>
     </Wrapper>
-  )
-}
+  );
+};
 
-const Wrapper = styled('div')`
+const Wrapper = styled("div")`
   display: flex;
   position: relative;
   width: 100%;
@@ -34,55 +53,59 @@ const Wrapper = styled('div')`
   padding: 4px 12px;
   align-items: center;
   z-index: 9;
-`
+`;
 
-const PullRight = styled('div')`
+const PullRight = styled("div")`
   margin-left: auto;
-`
+`;
 
-const Button = styled('button')`
+const Button = styled("button")`
   background: ${props => {
     switch (props.passed) {
-      case true: return props.theme.success.color;
+      case true:
+        return props.theme.success.color;
       // case false: return props.theme.danger.dark;
-      default: return props.theme.primary.medium
+      default:
+        return props.theme.primary.medium;
     }
   }};
-  color: rgba(255,255,255,.8);
+  color: rgba(255, 255, 255, 0.8);
   border: none;
-  padding: 8px 12px ${({passed}) => passed ? 8 : 10}px 12px;
+  padding: 8px 12px ${({ passed }) => (passed ? 8 : 10)}px 12px;
   text-transform: uppercase;
   font-weight: 500;
-  svg{
-    width: ${props => props.passed ? 20 : 12}px;
-    margin-right: ${props => props.passed ? 0 : 10}px;
-    margin-left: ${props => props.passed ? 10 : 0}px;
+  svg {
+    width: ${props => (props.passed ? 20 : 12)}px;
+    margin-right: ${props => (props.passed ? 0 : 10)}px;
+    margin-left: ${props => (props.passed ? 10 : 0)}px;
     margin-top: -1px;
   }
-  &:hover{
+  &:hover {
     background: ${props => {
       switch (props.passed) {
-        case true: return props.theme.success.light;
+        case true:
+          return props.theme.success.light;
         // case false: return props.theme.danger.medium;
-        default: return props.theme.primary.light
+        default:
+          return props.theme.primary.light;
       }
-    }};;
+    }};
   }
-  &:focus{
-    outline: 2px rgba(255,255,255,.2);
+  &:focus {
+    outline: 2px rgba(255, 255, 255, 0.2);
   }
-`
+`;
 
-const FlexRow = styled('div')`
+const FlexRow = styled("div")`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
-const StopIcon = styled('div')`
+const StopIcon = styled("div")`
   width: 12px;
   height: 12px;
   background: currentcolor;
   border-radius: 2px;
   margin-right: 10px;
-`
+`;

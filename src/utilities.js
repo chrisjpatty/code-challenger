@@ -1,3 +1,6 @@
+import ls from 'local-storage'
+import debounce from 'lodash/debounce'
+
 export const captureLogs = () => {
   let capturedLogs = []
   const oldLog = console.log;
@@ -31,3 +34,7 @@ export const captureLogs = () => {
     return capturedLogs;
   }
 }
+
+export const setCodeCache = debounce((code, id) => {
+  ls.set(`CODE_CACHE_${id}`, code)
+}, 1000)
