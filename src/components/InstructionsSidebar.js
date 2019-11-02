@@ -27,15 +27,30 @@ const Wrapper = styled('aside')`
   border-right: 2px solid #161714;
   font-weight: 300;
   font-size: 14px;
+  overflow-y: auto;
   p{
     margin: 5px 0px;
     line-height: 1.4;
   }
-  code{
-    background: rgba(255,255,255,.05);
+  pre, code{
+    background: ${({theme}) => theme.primary.medium};
     padding: 3px 4px 5px 4px;
     border-radius: 2px;
     font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    color: ${({theme}) => theme.markdownCode.color}
+  }
+  pre code {
+    background: none;
+    padding: 0px;
+  }
+  ul, ol{
+    padding-left: 25px;
+  }
+  ul li, ol li{
+    margin-bottom: 6px;
+    &:last-child{
+      margin-bottom: 0px;
+    }
   }
 `
 

@@ -12,7 +12,7 @@ export default () => {
   const [output, setOutput] = React.useState([]);
   const [result, setResult] = React.useState(null);
   const [passed, setPassed] = React.useState(null);
-  const [challengeIndex, setChallengeIndex] = React.useState(0);
+  const [challengeIndex, setChallengeIndex] = React.useState(1);
 
   const currentChallenge = CHALLENGES[challengeIndex];
 
@@ -20,7 +20,7 @@ export default () => {
     const { logs, result, crashed } = executeCode(code);
     setOutput(logs);
     if(!crashed){
-      const passed = testResult(result, currentChallenge)
+      const passed = testResult(result, currentChallenge, code)
       setResult(result);
       setPassed(passed);
     }else{
@@ -35,6 +35,14 @@ export default () => {
     setPassed(null);
   }, [currentChallenge])
 
+  const setNextChallengeIndex = () => {
+    if(challengeIndex + 1 >= CHALLENGES.length){
+      // TODO: Handle end of challenges
+    }else{
+      setChallengeIndex(i => i+1)
+    }
+  }
+
   return (
     <React.Fragment>
       <PageWrapper>
@@ -45,7 +53,7 @@ export default () => {
         <Editor code={code} onCodeChanged={setCode} />
         <Output output={output} result={result} passed={passed} />
       </PageWrapper>
-      <Toolbar onRun={startCodeTest} passed={passed} />
+      <Toolbar onRun={startCodeTest} onNextRequested={setNextChallengeIndex} passed={passed} />
     </React.Fragment>
   );
 };

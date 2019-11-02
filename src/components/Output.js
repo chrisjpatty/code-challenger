@@ -2,27 +2,43 @@ import React from 'react'
 import styled from '@emotion/styled'
 import prettyFormat from 'pretty-format'
 
-export default ({ output = [], result }) => {
+export default ({ output = [], result, passed }) => {
+  const wrapper = React.useRef();
+
+  React.useEffect(() => {
+    wrapper.current.scrollTop = wrapper.current.scrollHeight;
+  }, [output, result])
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapper}>
       <Title>Console Output:</Title>
       <Logs>
         {
-          output.map(log => (
-            <Log type={log.type}>
+          output.map((log, i) => (
+            <Log type={log.type} key={i}>
               {typeof log.message !== "string" ? prettyFormat(log.message) : log.message}
             </Log>
           ))
         }
         {
-          result ?
+          result || passed !== null ?
           <React.Fragment>
-            <Log>Result:</Log>
-            <Log></Log>
-            <Log>{prettyFormat(result)}</Log>
+            {output.length ? <Log>{' '}</Log> : null}
+            <Log>Result: {prettyFormat(result)}</Log>
           </React.Fragment>
           : null
+        }
+        {
+          passed === true &&
+          <SuccessMessage>
+            Nice! You've passed this one. Click "Next Challenge" to move on.
+          </SuccessMessage>
+        }
+        {
+          passed === false &&
+          <FailedMessage>
+            Looks like your answer wasn't quite right. Why not give it another shot!
+          </FailedMessage>
         }
       </Logs>
     </Wrapper>
@@ -39,6 +55,15 @@ const Wrapper = styled('section')`
   color: #eef1e1;
   padding: 15px;
   border-left: 2px solid #161714;
+  overflow: auto;
+`
+
+const SuccessMessage = styled('p')`
+  color: ${({theme}) => theme.success.light};
+`
+
+const FailedMessage = styled('p')`
+  color: rgb(252, 101, 76);
 `
 
 const Title = styled('h1')`

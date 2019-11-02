@@ -31,11 +31,19 @@ export const executeCode = code => {
   }
 };
 
-export const testResult = (result, challenge) => {
+export const testResult = (result, challenge, code) => {
   let passed = true;
   let i = 0;
   while(i < challenge.tests.length && passed === true){
-    passed = challenge.tests[i](result, challenge)
+    try {
+      passed = (challenge.tests || [])[i](result, challenge, code)
+      if(!passed && process.env.NODE_ENV === 'development'){
+        console.log(`Failed test at index ${i}`)
+      }
+    } catch (err) {
+      console.error(err)
+      passed = false;
+    }
     i++;
   }
   return passed;

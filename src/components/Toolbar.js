@@ -2,12 +2,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Play as PlayIcon, Forwards as ForwardsIcon } from '@chrisjpatty/tang-ui-icons'
 
-export default ({ onRun, passed }) => {
+export default ({ onRun, onNextRequested, passed }) => {
 
   return (
     <Wrapper>
       <PullRight>
-        <Button onClick={onRun} passed={passed}>
+        <Button onClick={passed ? onNextRequested : onRun} passed={passed}>
           {
             !passed ?
             <FlexRow>

@@ -13,5 +13,8 @@ export default {
     color: 'rgb(242, 47, 21)',
     medium: 'rgb(115, 31, 21)',
     dark: 'rgb(88, 29, 22)'
+  },
+  markdownCode: {
+    color: 'rgb(237, 183, 160)'
   }
 }
