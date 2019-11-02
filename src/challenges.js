@@ -47,6 +47,39 @@ For example, if the number was 10, you would return an object like this:
       r => r.every((numObj, i) => numObj.hasOwnProperty('squared') && numObj.squared === numberList[i] * numberList[i]),
       r => r.every((numObj, i) => numObj.hasOwnProperty('half') && numObj.half === numberList[i] / 2),
       r => r.every((numObj, i) => numObj.hasOwnProperty('double') && numObj.double === numberList[i] * 2),
+      (r, c, code) => usedSnippet(code, '.map(')
+    ]
+  },
+  {
+    title: "Array.map()",
+    instructions: `
+In this challenge we'll be using the \`map\` function to transform an array of numbers into an array of arrays. Each array in the array will be a copy of the original numbers array, but with each item being multiplied by the number in the numbers array at the same index as the new array.
+
+For example, if the numbers array was:
+
+\`\`\`
+[ 3, 5, 2 ]
+\`\`\`
+
+The returned array would be:
+
+\`\`\`js
+[
+  [ 9, 15, 6 ],
+  [ 15, 25, 10 ],
+  [ 6, 10, 4 ]
+]
+\`\`\`
+
+> **Hint:** You will need to use the \`map\` function twice.
+`,
+    startCode: `const numbers = [ ${numberList.join(', ')} ];\n\n// Return your answer below\nreturn `,
+    tests: [
+      isArray,
+      r => hasLength(r, 5),
+      r => r.every(numArr => isArray(numArr)),
+      r => r.every(numArr => hasLength(numArr, 5)),
+      r => r.every((numArr, i) => numArr.every((num, k) => num === numberList[k] * numberList[i]))
     ]
   }
 ]

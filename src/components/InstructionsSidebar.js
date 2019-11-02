@@ -2,12 +2,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ReactMarkdown from 'react-markdown'
 
-export default ({ instructions, title }) => {
+export default ({ instructions, title, number }) => {
 
   return (
     <Wrapper>
       {/* <SectionIndicator>Instructions:</SectionIndicator> */}
-      <Title>{title}</Title>
+      <Title>{number}. {title}</Title>
       <ReactMarkdown source={instructions} />
     </Wrapper>
   )
@@ -51,6 +51,14 @@ const Wrapper = styled('aside')`
     &:last-child{
       margin-bottom: 0px;
     }
+  }
+  blockquote{
+    margin: 0px;
+    font-style: italic;
+    color: ${({theme}) => theme.markdownAccent.color}
+  }
+  strong{
+    font-weight: 500;
   }
 `
 

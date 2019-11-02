@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 // import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider } from "emotion-theming";
+import { BrowserRouter as Router } from 'react-router-dom'
 import theme from './theme'
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
+  <Router>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Router>,
   document.getElementById("root")
 );
 

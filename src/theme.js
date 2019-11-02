@@ -15,6 +15,9 @@ export default {
     dark: 'rgb(88, 29, 22)'
   },
   markdownCode: {
-    color: 'rgb(237, 183, 160)'
+    color: 'rgb(237, 209, 160)'
+  },
+  markdownAccent: {
+    color: 'rgb(160, 179, 237)'
   }
 }
