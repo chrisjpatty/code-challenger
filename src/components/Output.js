@@ -116,7 +116,7 @@ const fadeIn = keyframes`
   0%{
     opacity: 0;
   }
-  15%{
+  10%{
     opacity: 1;
   }
   85%{

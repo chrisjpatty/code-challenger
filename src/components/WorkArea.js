@@ -9,6 +9,7 @@ import CHALLENGES from "../challenges";
 import { useHistory, useLocation } from 'react-router-dom'
 import { setCodeCache } from '../utilities'
 import ls from 'local-storage'
+import { useKeyboardShortcut } from '../hooks'
 
 export default () => {
   const [code, setCode] = React.useState();
@@ -43,6 +44,12 @@ export default () => {
       setIsTesting(false);
     });
   };
+
+  useKeyboardShortcut({
+    keyCode: 74,
+    modifiers: ['Meta'],
+    action: startCodeTest
+  })
 
   const cacheAndSetCode = code => {
     setCode(code)
