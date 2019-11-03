@@ -9,6 +9,7 @@ import {
 
 const numberList = [ 0, 1, 2, 3, 4 ];
 const numberList2 = [ 1, 2, 3, 4, 5 ];
+const fruit = [["Strawberry", "Red", "1"], ["Banana", "Yellow", "2"], ["Apple", "Green", "3"]]
 
 export default [
   {
@@ -112,6 +113,68 @@ The returned number would be \`48\`, because \`2 * 4 * 6 = 48\`.
     tests: [
       r => isType(r, 'number'),
       r => r === numberList2.reduce((prod, n) => prod * n, 1),
+      (r, c, code) => usedSnippet(code, '.reduce(')
+    ]
+  },
+  {
+    title: "Array.reduce()",
+    id: "db0c98",
+    instructions: `
+The goal of this challenge is to take an array of arrays, and reduce it into a single object.
+
+Each array in the fruit array has the name of the fruit as the first item, the color of the fruit as the second item, and the id as the third item.
+
+Using the \`reduce\` function, return an object with a key for each fruit id, pointing to having the following keys:
+
+- \`name\`: The name of the fruit.
+- \`color\`: The color of the fruit.
+- \`id\`: The id of the fruit.
+
+For example, if the fruit array looked like this:
+
+\`\`\`
+[
+  ["Watermelon", "Pink", "4"],
+  ["Grape", "Purple", "5"],
+  ["Pear", "Yellow", "6"]
+]
+\`\`\`
+
+You would return an object like this:
+
+\`\`\`
+{
+  4: {
+    name: "Watermelon",
+    color: "Pink",
+    id: "4"
+  },
+  5: {
+    name: "Grape",
+    color: "Purple",
+    id: "5"
+  },
+  6: {
+    name: "Pear",
+    color: "Yellow",
+    id: "6"
+  }
+}
+\`\`\`
+`,
+    startCode: `const fruit = [
+  ${fruit.map(f => `[${f.map(x => `"${x}"`).join(', ')}]`).join(',\n  ')}
+];\n\n// Return your answer below\nreturn `,
+    tests: [
+      isObject,
+      r => r.hasOwnProperty("1"),
+      r => r.hasOwnProperty("2"),
+      r => r.hasOwnProperty("3"),
+      r => fruit.every(f => isObject(r[f[2]])),
+      r => fruit.every(f => r[f[2]].hasOwnProperty("name")),
+      r => fruit.every(f => r[f[2]].hasOwnProperty("color")),
+      r => fruit.every(f => r[f[2]].hasOwnProperty("id")),
+      r => fruit.every((f, i) => r[f[2]].name === fruit[i][0] && r[f[2]].color === fruit[i][1]),
       (r, c, code) => usedSnippet(code, '.reduce(')
     ]
   }
