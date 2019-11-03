@@ -1,33 +1,48 @@
 import { captureLogs } from "./utilities";
+import testCodeSafety from './sanitize'
 
 let releaseLogs;
 
 export const executeCode = code => (
   new Promise((resolve, reject) => {
-    try {
-      releaseLogs = captureLogs();
-      // eslint-disable-next-line no-eval
-      const result = eval(`(function(){
-    ${code}
-  })()`);
-      const capturedLogs = releaseLogs();
-      resolve({ logs: capturedLogs, result, crashed: false });
-    } catch (e) {
-      releaseLogs();
+    const { isSafe, error } = testCodeSafety(code)
+    if(isSafe){
+      try {
+        releaseLogs = captureLogs();
+        // eslint-disable-next-line no-eval
+        const result = eval(`(function(){
+      ${code}
+    })()`);
+        const capturedLogs = releaseLogs();
+        resolve({ logs: capturedLogs, result, crashed: false });
+      } catch (e) {
+        releaseLogs();
+        resolve({
+          result: undefined,
+          crashed: true,
+          logs: [
+            {
+              type: "error",
+              message: e.message,
+            },
+            {
+              type: "error",
+              message: e.stack
+            }
+          ]
+        });
+      }
+    }else{
       resolve({
         result: undefined,
         crashed: true,
         logs: [
           {
             type: "error",
-            message: e.message,
-          },
-          {
-            type: "error",
-            message: e.stack
+            message: error
           }
         ]
-      });
+      })
     }
   })
 );

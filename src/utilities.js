@@ -38,3 +38,5 @@ export const captureLogs = () => {
 export const setCodeCache = debounce((code, id) => {
   ls.set(`CODE_CACHE_${id}`, code)
 }, 1000)
+
+export const minify = (string = "") => string.replace(/\s+/g, '').replace(/[\n\r]/g, '').toLowerCase();

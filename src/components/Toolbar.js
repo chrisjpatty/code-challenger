@@ -91,10 +91,11 @@ const Button = styled("button")`
   }};
   color: rgba(255, 255, 255, 0.8);
   border: none;
-  padding: 8px 12px ${({ passed }) => (passed ? 8 : 10)}px 12px;
+  padding: 8px 12px 8px 12px;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 12px;
+  height: 35px;
   svg {
     width: ${props => (props.passed ? 20 : 12)}px;
     margin-right: ${props => (props.passed ? 0 : 10)}px;
