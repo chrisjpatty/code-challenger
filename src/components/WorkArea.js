@@ -49,6 +49,11 @@ export default () => {
     setCodeCache(code, currentChallenge.id)
   }
 
+  const resetChallenge = () => {
+    resetOutput();
+    cacheAndSetCode(currentChallenge.startCode);
+  }
+
   React.useEffect(() => {
     const cachedCode = ls.get(`CODE_CACHE_${currentChallenge.id}`)
     setCode(cachedCode ? cachedCode : currentChallenge.startCode)
@@ -97,6 +102,7 @@ export default () => {
         onRun={startCodeTest}
         onPrevRequested={setPreviousChallengeIndex}
         onNextRequested={setNextChallengeIndex}
+        onResetRequested={resetChallenge}
         passed={passed}
         isTesting={isTesting}
         canGoBack={challengeIndex !== 0}

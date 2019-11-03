@@ -19,6 +19,7 @@ export default ({code, onCodeChanged}) => {
         value={code}
         width="100%"
         height="100%"
+        tabSize={2}
       />
     </Wrapper>
   )

@@ -3,13 +3,15 @@ import styled from "@emotion/styled";
 import {
   Play as PlayIcon,
   Forwards as ForwardsIcon,
-  Back as BackIcon
+  Back as BackIcon,
+  Revert as RevertIcon
 } from "@chrisjpatty/tang-ui-icons";
 
 export default ({
   onRun,
   onPrevRequested,
   onNextRequested,
+  onResetRequested,
   passed,
   isTesting,
   canGoBack
@@ -26,6 +28,12 @@ export default ({
         </Button>
       }
       <PullRight>
+        <Button onClick={onResetRequested} style={{marginRight: 10}}>
+          <FlexRow>
+            <RevertIcon style={{transform: 'rotate(-30deg)', width: 15}}/>
+            <span>Reset</span>
+          </FlexRow>
+        </Button>
         <Button onClick={passed ? onNextRequested : onRun} passed={passed}>
           {!passed ? (
             <FlexRow>
@@ -57,6 +65,8 @@ const Wrapper = styled("div")`
 
 const PullRight = styled("div")`
   margin-left: auto;
+  display: flex;
+  align-items: center;
 `;
 
 const Button = styled("button")`
