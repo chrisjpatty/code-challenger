@@ -99,7 +99,8 @@ const Button = styled("button")`
     width: ${props => (props.passed ? 20 : 12)}px;
     margin-right: ${props => (props.passed ? 0 : 10)}px;
     margin-left: ${props => (props.passed ? 10 : 0)}px;
-    margin-top: -1px;
+    margin-top: ${props => props.passed ? -2 : -1}px;
+    margin-bottom: ${props => props.passed ? -2 : 0}px;
   }
   &:hover {
     background: ${props => {
