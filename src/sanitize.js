@@ -8,6 +8,10 @@ const safetyTests = [
   {
     test: code => !minify(code).includes('window.') && !minify(code).includes('=window'),
     error: `Access to the window is restricted for this challenge.`
+  },
+  {
+    test: code => !minify(code).includes('eval('),
+    error: `Access to the eval function is restricted for this challenge.`
   }
 ]
 
