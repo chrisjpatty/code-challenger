@@ -113,6 +113,7 @@ export default () => {
         passed={passed}
         isTesting={isTesting}
         canGoBack={challengeIndex !== 0}
+        canGoForward={challengeIndex < CHALLENGES.length}
       />
     </React.Fragment>
   );
