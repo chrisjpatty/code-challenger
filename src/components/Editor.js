@@ -4,7 +4,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
 
-export default ({code, onCodeChanged}) => {
+export default ({code, onCodeChanged, innerRef}) => {
 
   return (
     <Wrapper>
@@ -20,6 +20,7 @@ export default ({code, onCodeChanged}) => {
         width="100%"
         height="100%"
         tabSize={2}
+        ref={innerRef}
       />
     </Wrapper>
   )

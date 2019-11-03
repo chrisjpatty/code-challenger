@@ -19,28 +19,28 @@ export default ({
 }) => {
   return (
     <Wrapper>
-      {
-        canGoBack &&
-        <Button onClick={onPrevRequested} style={{paddingBottom: 8}}>
-          <FlexRow>
-            <BackIcon style={{ width: 20 }} />{" "}
-            <span>Previous</span>
-          </FlexRow>
-        </Button>
-      }
-      {
-        canGoForward &&
-        <Button onClick={onNextRequested} style={{paddingBottom: 8, marginLeft: canGoBack ? 10 : 0}}>
-          <FlexRow>
-            <span>Next</span>{" "}
-            <ForwardsIcon style={{ width: 20, marginLeft: 10, marginRight: 0 }} />
-          </FlexRow>
-        </Button>
-      }
+      <Button
+        onClick={onPrevRequested}
+        disabled={!canGoBack}
+      >
+        <FlexRow>
+          <BackIcon style={{ width: 20 }} /> <span>Previous</span>
+        </FlexRow>
+      </Button>
+      <Button
+        onClick={onNextRequested}
+        style={{ marginLeft: 10 }}
+        disabled={!canGoForward}
+      >
+        <FlexRow>
+          <span>Next</span>{" "}
+          <ForwardsIcon style={{ width: 20, marginLeft: 10, marginRight: 0 }} />
+        </FlexRow>
+      </Button>
       <PullRight>
-        <Button onClick={onResetRequested} style={{marginRight: 10}}>
+        <Button onClick={onResetRequested} style={{ marginRight: 10 }}>
           <FlexRow>
-            <RevertIcon style={{transform: 'rotate(-30deg)', width: 15}}/>
+            <RevertIcon style={{ transform: "rotate(-30deg)", width: 15 }} />
             <span>Reset</span>
           </FlexRow>
         </Button>
@@ -100,8 +100,8 @@ const Button = styled("button")`
     width: ${props => (props.passed ? 20 : 12)}px;
     margin-right: ${props => (props.passed ? 0 : 10)}px;
     margin-left: ${props => (props.passed ? 10 : 0)}px;
-    margin-top: ${props => props.passed ? -2 : -1}px;
-    margin-bottom: ${props => props.passed ? -2 : 0}px;
+    margin-top: ${props => (props.passed ? -2 : -1)}px;
+    margin-bottom: ${props => (props.passed ? -2 : 0)}px;
   }
   &:hover {
     background: ${props => {
@@ -115,7 +115,13 @@ const Button = styled("button")`
     }};
   }
   &:focus {
-    outline: 2px rgba(255, 255, 255, 0.2);
+    outline: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  &:disabled {
+    opacity: .3;
+    &:hover{
+      background: ${({theme}) => theme.primary.medium};
+    }
   }
 `;
 

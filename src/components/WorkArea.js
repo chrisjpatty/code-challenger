@@ -18,6 +18,8 @@ export default () => {
   const [passed, setPassed] = React.useState(null);
   const [challengeIndex, setChallengeIndex] = React.useState(0);
   const [isTesting, setIsTesting] = React.useState(false);
+  const [focusOnNextText, setFocusOnNextTick] = React.useState(false);
+  const editor = React.useRef();
   const history = useHistory();
   const location = useLocation();
 
@@ -45,12 +47,6 @@ export default () => {
     });
   };
 
-  useKeyboardShortcut({
-    keyCode: 74,
-    modifiers: ['Meta'],
-    action: startCodeTest
-  })
-
   const cacheAndSetCode = code => {
     setCode(code)
     setCodeCache(code, currentChallenge.id)
@@ -62,11 +58,25 @@ export default () => {
   }
 
   React.useEffect(() => {
-    const cachedCode = ls.get(`CODE_CACHE_${currentChallenge.id}`)
+    const cachedCode = ls.get(`CODE_CACHE_${currentChallenge.id}`);
     setCode(cachedCode ? cachedCode : currentChallenge.startCode)
+    setFocusOnNextTick(true)
     resetOutput();
     history.replace(`${location.pathname}?challenge=${challengeIndex + 1}`)
   }, [currentChallenge, challengeIndex]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const focusLastEditorRow = () => {
+    editor.current.editor.focus()
+    editor.current.editor.gotoLine(code.split("\n").length);
+    editor.current.editor.navigateLineEnd();
+  }
+
+  React.useEffect(() => {
+    if(focusOnNextText){
+      setFocusOnNextTick(false);
+      focusLastEditorRow();
+    }
+  }, [focusOnNextText]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const setNextChallengeIndex = () => {
     if(challengeIndex + 1 >= CHALLENGES.length){
@@ -94,6 +104,27 @@ export default () => {
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
+  const canGoBack = challengeIndex !== 0;
+  const canGoForward = challengeIndex < CHALLENGES.length - 1;
+
+  useKeyboardShortcut({
+    keyCode: 72,
+    modifiers: ['Meta'],
+    action: canGoBack ? setPreviousChallengeIndex : undefined
+  })
+
+  useKeyboardShortcut({
+    keyCode: 74,
+    modifiers: ['Meta'],
+    action: startCodeTest
+  })
+
+  useKeyboardShortcut({
+    keyCode: 75,
+    modifiers: ['Meta'],
+    action: canGoForward ? setNextChallengeIndex : undefined
+  })
+
   return (
     <React.Fragment>
       <PageWrapper>
@@ -102,8 +133,18 @@ export default () => {
           title={currentChallenge.title}
           number={challengeIndex + 1}
         />
-        <Editor code={code} onCodeChanged={cacheAndSetCode} />
-        <Output output={output} result={result} passed={passed} isTesting={isTesting} />
+        <Editor
+          code={code}
+          onCodeChanged={cacheAndSetCode}
+          innerRef={editor}
+          key={challengeIndex}
+        />
+        <Output
+          output={output}
+          result={result}
+          passed={passed}
+          isTesting={isTesting}
+        />
       </PageWrapper>
       <Toolbar
         onRun={startCodeTest}
@@ -112,8 +153,8 @@ export default () => {
         onResetRequested={resetChallenge}
         passed={passed}
         isTesting={isTesting}
-        canGoBack={challengeIndex !== 0}
-        canGoForward={challengeIndex < CHALLENGES.length}
+        canGoBack={canGoBack}
+        canGoForward={canGoForward}
       />
     </React.Fragment>
   );

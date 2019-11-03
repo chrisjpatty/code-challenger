@@ -38,7 +38,9 @@ export const useKeyboardShortcut = ({keyCode, modifiers = [], action, disabled})
       })
       if(allModifiersPressed){
         e.preventDefault()
-        action(e)
+        if(typeof action === 'function'){
+          action(e)
+        }
       }
     }
   }
