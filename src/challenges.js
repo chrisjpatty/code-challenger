@@ -4,12 +4,16 @@ import {
   hasLength,
   usedSnippet,
   isObject,
-  usedAtLeastNumOfSnippet
+  usedAtLeastNumOfSnippet,
+  hasProperties,
+  shallowMatchesObject
 } from "./testHelpers";
-
-const numberList = [ 0, 1, 2, 3, 4 ];
-const numberList2 = [ 1, 2, 3, 4, 5 ];
-const fruit = [["Strawberry", "Red", "1"], ["Banana", "Yellow", "2"], ["Apple", "Green", "3"]]
+import {
+  numberList,
+  numberList2,
+  fruit,
+  cars
+} from './data'
 
 export default [
   {
@@ -176,6 +180,71 @@ You would return an object like this:
       r => fruit.every(f => r[f[2]].hasOwnProperty("id")),
       r => fruit.every((f, i) => r[f[2]].name === fruit[i][0] && r[f[2]].color === fruit[i][1]),
       (r, c, code) => usedSnippet(code, '.reduce(')
+    ]
+  },
+  {
+    title: "Object.filter()",
+    id: "8dbb7a",
+    instructions: `
+In this challenge we will filter an array of objects. Using the \`filter\` function, filter all car objects out of the cars array that are older than 2010.
+
+For example, if this was the cars array:
+
+\`\`\`
+[
+  {
+    make: "Nissan",
+    model: "Sentra",
+    year: 2008
+  },
+  {
+    make: "Hyundai",
+    model: "Sonata",
+    year: 2013
+  }
+]
+\`\`\`
+
+The returned array would be:
+
+\`\`\`
+[
+  {
+    make: "Hyundai",
+    model: "Sonata",
+    year: 2013
+  }
+]
+\`\`\`
+
+> **Hint:** Be sure to only filter out cars that are **older** than 2010.
+`,
+    startCode: `const cars = [
+  ${cars
+  .map(
+    c =>
+      `{\n    ${Object.entries(c)
+        .map(
+          ([key, value]) =>
+            `${key}: ${typeof value === "string" ? `"${value}"` : value}`
+        )
+        .join(`,\n    `)}\n  }`
+  )
+  .join(",\n  ")
+}
+]
+
+// Return your answer below
+return `,
+    tests: [
+      isArray,
+      r => hasLength(r, 2),
+      r => r.every(isObject),
+      r => r.every(car => hasProperties(car, ["make", "model", "year"])),
+      r => r.every(car => typeof car.year === 'number'),
+      r => shallowMatchesObject(r[0], cars[0]),
+      r => shallowMatchesObject(r[1], cars[2]),
+      (r, c, code) => usedSnippet(code, '.filter(')
     ]
   }
 ]

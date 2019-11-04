@@ -50,3 +50,11 @@ export const usedAtLeastNumOfSnippet = (code = '', snippet = '', number = 0) => 
 }
 
 export const isObject = result => typeof result === 'object' && !isArray(result) && result !== null;
+
+export const hasProperties = (result, properties = []) => (
+  properties.every(prop => result.hasOwnProperty(prop))
+)
+
+export const shallowMatchesObject = (result, object) => (
+  Object.entries(result).every(([key, value]) => object[key] === value)
+)
