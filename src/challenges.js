@@ -171,13 +171,9 @@ You would return an object like this:
 ];\n\n// Return your answer below\nreturn `,
     tests: [
       isObject,
-      r => r.hasOwnProperty("1"),
-      r => r.hasOwnProperty("2"),
-      r => r.hasOwnProperty("3"),
+      r => hasProperties(r, ["1", "2", "3"]),
       r => fruit.every(f => isObject(r[f[2]])),
-      r => fruit.every(f => r[f[2]].hasOwnProperty("name")),
-      r => fruit.every(f => r[f[2]].hasOwnProperty("color")),
-      r => fruit.every(f => r[f[2]].hasOwnProperty("id")),
+      r => fruit.every(f => hasProperties(r[f[2]], ["name", "color", "id"])),
       r => fruit.every((f, i) => r[f[2]].name === fruit[i][0] && r[f[2]].color === fruit[i][1]),
       (r, c, code) => usedSnippet(code, '.reduce(')
     ]
@@ -241,7 +237,7 @@ return `,
       r => hasLength(r, 2),
       r => r.every(isObject),
       r => r.every(car => hasProperties(car, ["make", "model", "year"])),
-      r => r.every(car => typeof car.year === 'number'),
+      r => r.every(car => isType(car.year, "number")),
       r => shallowMatchesObject(r[0], cars[0]),
       r => shallowMatchesObject(r[1], cars[2]),
       (r, c, code) => usedSnippet(code, '.filter(')
