@@ -179,7 +179,7 @@ You would return an object like this:
     ]
   },
   {
-    title: "Object.filter()",
+    title: "Array.filter()",
     id: "8dbb7a",
     instructions: `
 In this challenge we will filter an array of objects. Using the \`filter\` function, filter all car objects out of the cars array that are older than 2010.
